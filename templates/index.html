@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>K10 Wellbeing Assessment</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+
+<body>
+
+<div class="page-container">
+
+    <header class="header">
+
+        <div class="logo">
+            K10
+        </div>
+
+        <div>
+            <h1>Wellbeing Assessment</h1>
+
+            <p>
+                Kessler Psychological Distress Scale
+            </p>
+        </div>
+
+    </header>
+
+
+    {% if not result %}
+
+    <section class="intro">
+
+        <h2>How have you been feeling?</h2>
+
+        <p>
+            The following questions ask about how you have
+            been feeling during the past 30 days.
+        </p>
+
+        <p>
+            Select the option that best represents how
+            often you experienced each feeling.
+        </p>
+
+        <div class="notice">
+            Please answer all 10 questions.
+        </div>
+
+    </section>
+
+
+    <form method="POST" id="assessmentForm">
+
+        {% for question in questions %}
+
+        {% set question_number = loop.index %}
+
+        <div class="question-card">
+
+            <div class="question-number">
+                Question {{ question_number }} of 10
+            </div>
+
+            <h3>
+                {{ question }}
+            </h3>
+
+
+            <div class="options">
+
+                {% for value, label in options %}
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="q{{ question_number }}"
+                        value="{{ value }}"
+                        required
+                    >
+
+                    <span class="custom-radio"></span>
+
+                    <span class="option-text">
+                        {{ label }}
+                    </span>
+
+                </label>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+
+        <button type="submit" class="submit-btn">
+
+            View My Result
+
+        </button>
+
+    </form>
+
+
+    {% else %}
+
+
+    <section class="result-container">
+
+        {% if score %}
+
+        <p class="completed-text">
+            Assessment Completed
+        </p>
+
+        <div class="score-circle">
+
+            <span class="score">
+                {{ score }}
+            </span>
+
+            <span class="out-of">
+                / 50
+            </span>
+
+        </div>
+
+
+        <div class="result-box {{ result.class }}">
+
+            <h2>
+                {{ result.title }}
+            </h2>
+
+            <p>
+                {{ result.message }}
+            </p>
+
+        </div>
+
+
+        <div class="score-guide">
+
+            <h3>Score Guide</h3>
+
+            <div class="guide-item">
+                <span>10–19</span>
+                <span>Doing Well</span>
+            </div>
+
+            <div class="guide-item">
+                <span>20–24</span>
+                <span>Needs Mild Attention</span>
+            </div>
+
+            <div class="guide-item">
+                <span>25–29</span>
+                <span>Needs Moderate Attention</span>
+            </div>
+
+            <div class="guide-item">
+                <span>30–50</span>
+                <span>Needs Immediate Attention</span>
+            </div>
+
+        </div>
+
+
+        <div class="disclaimer">
+
+            This assessment is intended as a screening
+            tool and does not provide a medical diagnosis.
+
+        </div>
+
+
+        <a href="/" class="restart-btn">
+
+            Take Assessment Again
+
+        </a>
+
+        {% else %}
+
+        <div class="result-box error">
+
+            <h2>
+                {{ result.title }}
+            </h2>
+
+            <p>
+                {{ result.message }}
+            </p>
+
+        </div>
+
+        <a href="/" class="restart-btn">
+            Try Again
+        </a>
+
+        {% endif %}
+
+    </section>
+
+
+    {% endif %}
+
+
+    <footer>
+
+        <p>
+            K10 Psychological Distress Assessment
+        </p>
+
+    </footer>
+
+</div>
+
+</body>
+
+</html>
