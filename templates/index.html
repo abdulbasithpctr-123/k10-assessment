@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -9,12 +10,13 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>K10 Wellbeing Assessment</title>
+    <title>K10 Psychological Distress Assessment</title>
 
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
+        href="{{ url_for('static', filename='style.css') }}?v=4"
     >
+
 </head>
 
 
@@ -22,18 +24,19 @@
 
 <div class="page-container">
 
+
+    <!-- ======================================================
+         ANDALUCIA FOUNDATION HEADER
+         ====================================================== -->
+
     <header class="header">
 
-        <div class="logo">
-            K10
-        </div>
-
-        <div>
-            <h1>Wellbeing Assessment</h1>
-
-            <p>
-                Kessler Psychological Distress Scale
-            </p>
+        <div class="brand-shell">
+            <img
+                class="foundation-header-logo"
+                src="{{ url_for('static', filename='foundation-logo.png') }}"
+                alt="Andalucia Foundation"
+            >
         </div>
 
     </header>
@@ -41,9 +44,35 @@
 
     {% if not result %}
 
+    <section class="mental-health-banner" aria-label="Check your mental health here">
+        <div class="mental-health-banner__copy">
+            <p class="mental-health-banner__eyebrow">A GENTLE MOMENT FOR YOU</p>
+            <h2>Check your mental health here</h2>
+            <p class="mental-health-banner__note">Take a quiet moment to check in with yourself.</p>
+        </div>
+        <span class="mental-health-banner__seal" aria-hidden="true">
+            <span></span>
+        </span>
+    </section>
+
+    {% endif %}
+
+
+    <!-- ======================================================
+         ASSESSMENT PAGE
+         ====================================================== -->
+
+    {% if not result %}
+
     <section class="intro">
 
-        <h2>How have you been feeling?</h2>
+        <div class="intro-label">
+            K10 PSYCHOLOGICAL DISTRESS ASSESSMENT
+        </div>
+
+        <h2>
+            How have you been feeling?
+        </h2>
 
         <p>
             The following questions ask about how you have
@@ -62,7 +91,14 @@
     </section>
 
 
-    <form method="POST" id="assessmentForm">
+    <!-- ======================================================
+         QUESTIONS FORM
+         ====================================================== -->
+
+    <form
+        method="POST"
+        id="assessmentForm"
+    >
 
         {% for question in questions %}
 
@@ -109,17 +145,21 @@
         {% endfor %}
 
 
-        <button type="submit" class="submit-btn">
-
+        <button
+            type="submit"
+            class="submit-btn"
+        >
             View My Result
-
         </button>
 
     </form>
 
 
-    {% else %}
+    <!-- ======================================================
+         RESULT PAGE
+         ====================================================== -->
 
+    {% else %}
 
     <section class="result-container">
 
@@ -128,6 +168,7 @@
         <p class="completed-text">
             Assessment Completed
         </p>
+
 
         <div class="score-circle">
 
@@ -142,45 +183,101 @@
         </div>
 
 
-        <div class="result-box {{ result.class }}">
+        <div class="result-insight">
+            <div class="result-box {{ result.class }}">
+                <h2>{{ result.title }}</h2>
+                <p>{{ result.message }}</p>
+            </div>
 
-            <h2>
-                {{ result.title }}
-            </h2>
-
-            <p>
-                {{ result.message }}
-            </p>
-
+            {% if result.class == "doing-well" %}
+            <div class="result-character result-character--well">
+                <svg viewBox="0 0 180 150" role="img" aria-label="A cheerful character enjoying a sunny day">
+                    <circle class="character-halo" cx="90" cy="75" r="66" />
+                    <circle class="character-sun" cx="133" cy="35" r="13" />
+                    <path class="character-sun-rays" d="M133 15v-5m0 50v-5m20-20h5m-50 0h5m34-14 4-4m-36 36 4-4m28 0 4 4m-36-36 4 4" />
+                    <ellipse class="character-ground" cx="88" cy="133" rx="42" ry="7" />
+                    <path class="character-body" d="M67 82q21-15 42 0l9 43H58z" />
+                    <path class="character-limb" d="m65 91-15 19m63-20 13-20m-44 55-3 12m21-12 4 12" />
+                    <path class="character-skin" d="M49 111q-5 0-6 5m80-47q2-6 7-7" />
+                    <circle class="character-skin-fill" cx="88" cy="54" r="22" />
+                    <path class="character-hair" d="M66 52q0-24 23-24 22 0 22 22-8-5-12-15-11 12-33 13z" />
+                    <circle class="character-eye" cx="81" cy="55" r="1.8" />
+                    <circle class="character-eye" cx="96" cy="55" r="1.8" />
+                    <path class="character-smile" d="M82 64q7 8 14 0" />
+                    <path class="character-detail" d="M75 84q13 8 26 0" />
+                </svg>
+            </div>
+            {% elif result.class == "mild" %}
+            <div class="result-character result-character--mild">
+                <svg viewBox="0 0 180 150" role="img" aria-label="A thoughtful character pausing with a small flower">
+                    <circle class="character-halo" cx="90" cy="75" r="66" />
+                    <path class="character-sparkle" d="m132 28 3 7 7 3-7 3-3 7-3-7-7-3 7-3z" />
+                    <ellipse class="character-ground" cx="88" cy="133" rx="42" ry="7" />
+                    <path class="character-body" d="M67 82q21-15 42 0l9 43H58z" />
+                    <path class="character-limb" d="m66 91-13 18m60-18-13 12m-29 17-3 12m21-12 4 12" />
+                    <path class="character-skin" d="M53 109q-4 3-2 7m49-23q8 5 9 12" />
+                    <circle class="character-skin-fill" cx="88" cy="54" r="22" />
+                    <path class="character-hair" d="M66 52q0-24 23-24 22 0 22 22-8-5-12-15-11 12-33 13z" />
+                    <circle class="character-eye" cx="81" cy="55" r="1.8" />
+                    <circle class="character-eye" cx="96" cy="55" r="1.8" />
+                    <path class="character-smile" d="M83 65q5 4 10 0" />
+                    <path class="character-detail" d="M77 84q11 6 22 0" />
+                    <path class="character-flower-stem" d="m111 119 10-21" />
+                    <circle class="character-flower" cx="123" cy="94" r="5" />
+                    <circle class="character-flower-center" cx="123" cy="94" r="2" />
+                </svg>
+            </div>
+            {% elif result.class == "moderate" %}
+            <div class="result-character result-character--moderate">
+                <svg viewBox="0 0 180 150" role="img" aria-label="A character taking a comforting pause with a warm drink">
+                    <circle class="character-halo" cx="90" cy="75" r="66" />
+                    <path class="character-cloud" d="M119 34q0-8 8-8t9 8q8-2 10 6h-28q-6-1-6-5t7-6z" />
+                    <ellipse class="character-ground" cx="88" cy="133" rx="42" ry="7" />
+                    <path class="character-body" d="M67 82q21-15 42 0l9 43H58z" />
+                    <path class="character-limb" d="m66 91-12 17m59-17-16 15m-23 12-3 12m21-12 4 12" />
+                    <path class="character-skin" d="M54 108q-4 3-2 7m46-14q6 8 12 1" />
+                    <circle class="character-skin-fill" cx="88" cy="54" r="22" />
+                    <path class="character-hair" d="M66 52q0-24 23-24 22 0 22 22-8-5-12-15-11 12-33 13z" />
+                    <circle class="character-eye" cx="81" cy="55" r="1.8" />
+                    <circle class="character-eye" cx="96" cy="55" r="1.8" />
+                    <path class="character-smile" d="M83 65q5 4 10 0" />
+                    <path class="character-detail" d="M77 84q11 6 22 0" />
+                    <path class="character-cup" d="M105 102h18v15q0 5-5 5h-8q-5 0-5-5z" />
+                    <path class="character-cup-handle" d="M123 106h4q6 0 4 6t-8 5" />
+                    <path class="character-steam" d="M110 98q-4-4 0-8m7 8q-4-4 0-8" />
+                </svg>
+            </div>
+            {% elif result.class == "immediate" %}
+            <div class="result-character result-character--immediate">
+                <svg viewBox="0 0 180 150" role="img" aria-label="A caring friend offering comfort and support">
+                    <circle class="character-halo" cx="90" cy="75" r="66" />
+                    <path class="character-heart" d="M132 31c-5-8-17-4-15 5 1 5 8 9 15 14 7-5 14-9 15-14 2-9-10-13-15-5z" />
+                    <ellipse class="character-ground" cx="88" cy="133" rx="46" ry="7" />
+                    <path class="character-body character-body--friend" d="M111 82q17-12 33 0l6 43h-46z" />
+                    <path class="character-skin-fill" d="M119 54a17 17 0 1 0 34 0 17 17 0 0 0-34 0z" />
+                    <path class="character-hair character-hair--friend" d="M118 53q1-19 18-19 18 0 18 19-8-3-12-12-8 8-24 9z" />
+                    <circle class="character-eye" cx="130" cy="55" r="1.5" />
+                    <circle class="character-eye" cx="142" cy="55" r="1.5" />
+                    <path class="character-smile" d="M131 62q5 5 10 0" />
+                    <path class="character-limb character-limb--friend" d="m110 91-14 13m34 21-1 9m13-9 2 9" />
+                    <path class="character-body" d="M55 84q20-15 40 0l8 41H47z" />
+                    <path class="character-limb" d="m55 92-9 17m48-16 12 8m-39 24-3 9m20-9 3 9" />
+                    <path class="character-skin" d="M45 109q-3 3-1 6m61-7q4 4 8 0" />
+                    <circle class="character-skin-fill" cx="76" cy="57" r="21" />
+                    <path class="character-hair" d="M55 55q0-23 22-23 21 0 21 21-9-5-13-15-10 12-30 13z" />
+                    <circle class="character-eye" cx="69" cy="57" r="1.7" />
+                    <circle class="character-eye" cx="83" cy="57" r="1.7" />
+                    <path class="character-smile" d="M70 65q6 5 12 0" />
+                    <path class="character-detail" d="M63 86q12 7 24 0" />
+                </svg>
+            </div>
+            {% endif %}
         </div>
 
 
-        <div class="score-guide">
-
-            <h3>Score Guide</h3>
-
-            <div class="guide-item">
-                <span>10–19</span>
-                <span>Doing Well</span>
-            </div>
-
-            <div class="guide-item">
-                <span>20–24</span>
-                <span>Needs Mild Attention</span>
-            </div>
-
-            <div class="guide-item">
-                <span>25–29</span>
-                <span>Needs Moderate Attention</span>
-            </div>
-
-            <div class="guide-item">
-                <span>30–50</span>
-                <span>Needs Immediate Attention</span>
-            </div>
-
-        </div>
-
+        <!-- ==================================================
+             DISCLAIMER
+             ================================================== -->
 
         <div class="disclaimer">
 
@@ -190,13 +287,20 @@
         </div>
 
 
-        <a href="/" class="restart-btn">
-
+        <a
+            href="/"
+            class="restart-btn"
+        >
             Take Assessment Again
-
         </a>
 
+
         {% else %}
+
+
+        <!-- ==================================================
+             ERROR
+             ================================================== -->
 
         <div class="result-box error">
 
@@ -210,17 +314,25 @@
 
         </div>
 
-        <a href="/" class="restart-btn">
+
+        <a
+            href="/"
+            class="restart-btn"
+        >
             Try Again
         </a>
+
 
         {% endif %}
 
     </section>
 
-
     {% endif %}
 
+
+    <!-- ======================================================
+         FOOTER
+         ====================================================== -->
 
     <footer>
 
@@ -228,7 +340,12 @@
             K10 Psychological Distress Assessment
         </p>
 
+        <p class="footer-brand">
+            Andalucia Foundation
+        </p>
+
     </footer>
+
 
 </div>
 

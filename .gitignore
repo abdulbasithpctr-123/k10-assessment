@@ -1,0 +1,23 @@
+# Virtual environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+.env.*
+
+# Vercel
+.vercel/
+
+# IDE
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
